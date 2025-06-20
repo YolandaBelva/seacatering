@@ -2,12 +2,6 @@
 
 return [
 
-    'google' => [
-    'client_id' => env('602191016243-vg82302a0n6gk7vj2vb6n2suqj1echq6.apps.googleusercontent.com'),
-    'client_secret' => env('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'),
-    'redirect' => env('http://localhost:8000/login/google/callback'),
-],
-
 
     /*
     |--------------------------------------------------------------------------
