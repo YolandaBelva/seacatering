@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - SEA Catering</title>
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ time() }}">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="login-body">
-  <div class="login-wrapper">
-    <div class="login-container">
-      
-      <!-- KIRI: FORM LOGIN -->
-      <div class="login-left">
-        <h2 class="login-title">Holla, Welcome Back</h2>
-        <p class="login-subtitle">Hey, welcome back to your special place</p>
+<body class="bg-green-100 min-h-screen flex items-center justify-center px-4">
+  <div class="max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row">
 
-        <form method="POST" action="{{ route('login') }}">
-          @csrf
+    <!-- Left Section -->
+    <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Login to your Account</h2>
+      <p class="text-gray-600 mb-8">Hey, welcome back to your special place</p>
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" name="email" required placeholder="stanley@gmail.com">
-          </div>
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" type="password" name="password" required placeholder="•••••••••••">
-          </div>
+        <div class="mb-6">
+          <label for="email" class="block font-semibold mb-2">Email</label>
+          <input id="email" type="email" name="email" required placeholder="Input Your Email"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-sm" />
+        </div>
 
-          <button type="submit" class="btn-submit">Sign In</button>
+        <div class="mb-6">
+          <label for="password" class="block font-semibold mb-2">Password</label>
+          <input id="password" type="password" name="password" required placeholder="Input Your Password"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-sm" />
+        </div>
 
-          <div class="login-footer">
-            <p>Don’t have an account? <a href="#">Sign Up</a></p>
-          </div>
-        </form>
-      </div>
+        <button type="submit"
+          class="w-full bg-green-500 hover:bg-green-100 hover:text-green-700 text-white font-semibold py-3 rounded-xl transition">Sign In</button>
 
-      <!-- KANAN: GAMBAR ILUSTRASI -->
-      <div class="login-right">
-        <img src="{{ asset('assets/login.jpg') }}" alt="Login Illustration">
-      </div>
+        <div class="mt-6 text-sm text-gray-600 text-center space-y-4">
+  <p>Don’t Have An Account? <a href="#" class="text-green-500 font-semibold hover:underline">Sign Up</a></p>
 
+  <div>
+    <p class="text-xs text-gray-400 mb-2">or</p>
+    <a href="{{ route('login.google') }}"
+      class="inline-flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow hover:bg-gray-100 transition">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
+      Sign in with Google
+    </a>
+  </div>
+</div>
+
+      </form>
     </div>
+
+    <!-- Right Section -->
+    <div class="w-full md:w-1/2 bg-gradient-to-br from-green-400 to-green-100 flex items-center justify-center p-8">
+      <img src="{{ asset('assets/login.jpg') }}" alt="Login Illustration" class="w-full max-w-sm">
+    </div>
+
   </div>
 </body>
 </html>
