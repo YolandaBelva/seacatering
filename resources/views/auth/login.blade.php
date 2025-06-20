@@ -33,16 +33,7 @@
           class="w-full bg-green-500 hover:bg-green-100 hover:text-green-700 text-white font-semibold py-3 rounded-xl transition">Sign In</button>
 
         <div class="mt-6 text-sm text-gray-600 text-center space-y-4">
-  <p>Don’t Have An Account? <a href="#" class="text-green-500 font-semibold hover:underline">Sign Up</a></p>
-
-  <div>
-    <p class="text-xs text-gray-400 mb-2">or</p>
-    <a href="{{ route('login.google') }}"
-      class="inline-flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg shadow hover:bg-gray-100 transition">
-      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
-      Sign in with Google
-    </a>
-  </div>
+        <p>Don’t Have An Account? <a href="/register" class="text-green-500 font-semibold hover:underline">Sign Up</a></p>
 </div>
 
       </form>

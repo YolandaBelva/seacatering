@@ -39,7 +39,7 @@
           class="w-full bg-green-500 hover:bg-green-100 hover:text-green-700 text-white font-semibold py-3 rounded-xl transition">Sign Up</button>
 
         <div class="mt-6 text-sm text-gray-600 text-center">
-          <p>Have An Account? <a href="#" class="text-green-500 font-semibold hover:underline">Sign In</a></p>
+          <p>Have An Account? <a href="/login" class="text-green-500 font-semibold hover:underline">Sign In</a></p>
         </div>
       </form>
     </div>

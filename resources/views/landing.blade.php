@@ -5,24 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEA Catering</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body class="font-sans text-gray-800">
 
   <!-- Navbar -->
   <header class="bg-white shadow">
-    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-green-600">SEA Catering</h1>
-      <nav class="flex items-center space-x-6">
-        <ul class="hidden md:flex space-x-6">
-          <li><a href="#" class="hover:text-green-600">Home</a></li>
-          <li><a href="#" class="hover:text-green-600">Meal Plans</a></li>
-          <li><a href="#" class="hover:text-green-600">About Us</a></li>
-          <li><a href="#" class="hover:text-green-600">Contact</a></li>
-          <li><a href="#" class="hover:text-green-600">Login</a></li>
-        </ul>
-        <a href="#" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Order Now</a>
-      </nav>
-    </div>
+    @include('components.navbar'
+      )
   </header>
 
   <!-- Hero Section -->
@@ -43,15 +33,15 @@
 
     <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       <div class="bg-white shadow-md rounded-lg p-6">
-        <h4 class="text-xl font-semibold mb-2">🥗 Meal Customization</h4>
+        <h4 class="text-xl font-semibold mb-2">Meal Customization</h4>
         <p>Tailor your meals to your specific dietary requirements and taste preferences.</p>
       </div>
       <div class="bg-white shadow-md rounded-lg p-6">
-        <h4 class="text-xl font-semibold mb-2">🚚 Delivery Across Indonesia</h4>
+        <h4 class="text-xl font-semibold mb-2">Delivery Across Indonesia</h4>
         <p>Enjoy fresh, healthy meals delivered to your doorstep in major cities across Indonesia.</p>
       </div>
       <div class="bg-white shadow-md rounded-lg p-6">
-        <h4 class="text-xl font-semibold mb-2">📊 Detailed Nutritional Information</h4>
+        <h4 class="text-xl font-semibold mb-2">Detailed Nutritional Information</h4>
         <p>Access comprehensive nutritional information for each meal, including calories, macros, and ingredients.</p>
       </div>
     </div>
