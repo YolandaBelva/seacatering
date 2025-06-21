@@ -15,7 +15,7 @@
 
       <div>
         <label for="name" class="block font-semibold mb-1">Name*</label>
-        <input type="text" id="name" placeholder="Enter your name" required
+        <input type="text" id="name" placeholder="Enter your FullName" required
           class="w-full px-4 py-2 border border-gray-300 rounded-md " />
       </div>
 
