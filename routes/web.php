@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\Api\UserController;
 
 Route::get('/', function () {
     return view('landing');
@@ -22,6 +22,20 @@ Route::get('/subscription', function () {
 Route::get('/meal_plans', function () {
     return view('meal_plans');
 })->name('meal_plans');
+
+Route::get('/testimonials', function () {
+    return view('testimonials');
+})->name('testimonials');
+
+Route::get('/userdashboard', function () {
+    return view('userdashboard');
+})->name('userdashboard');
+
+Route::get('/admindashboard', function () {
+    return view('admindashboard');
+})->name('admindashboard');
+
+Route::apiResource('users', UserController::class);
 
 // Route::get('/login/google', [GoogleController::class, 'redirect'])->name('login.google');
 // Route::get('/login/google/callback', [GoogleController::class, 'callback']);
