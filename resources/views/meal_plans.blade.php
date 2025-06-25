@@ -8,8 +8,7 @@
 </head>
 <body class="bg-white dark:bg-gray-900">
   <header class="bg-white shadow">
-    @include('components.navbar'
-      )
+    @include('components.navbar')
   </header>
 
   <section class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
@@ -23,43 +22,52 @@
     </div>
 
     <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-
       {{-- Diet Plan --}}
       @include('components.meal_cards', [
-          'title' => 'Diet Plan 1',
+          'title' => 'Diet Plan',
           'image' => 'assets/diet.jpg',
+          'price' => 'Rp30.000/Meal',
+          'description' => 'Light, nutrient-rich meals to support your weight goals.',
           'features' => [
               'Balanced meals for everyday health',
               'Supports weight management and wellness',
               'Includes a variety of fruits, vegetables, and whole grains'
-          ]
+          ],
+          'modalId' => 'dietModal',
+          'modalContent' => view('components.modals.diet')->render()
       ])
 
       {{-- Protein Plan --}}
       @include('components.meal_cards', [
-          'title' => 'Protein Plan 1',
+          'title' => 'Protein Plan',
           'image' => 'assets/protein.jpg',
+          'price' => 'Rp40.000/Meal',
+          'description' => 'High-protein meals to energize your day and build strength.',
           'features' => [
               'Lean, High-Protein Meals',
               'Balanced Macros with Good Fats & Greens',
               'Expert-Curated Weekly Recipes',
               'Clean Ingredients, No Compromise'
-          ]
+          ],
+          'modalId' => 'proteinModal',
+          'modalContent' => view('components.modals.protein')->render()
       ])
 
       {{-- Royal Plan --}}
       @include('components.meal_cards', [
-          'title' => 'Royal Plan 1',
+          'title' => 'Royal Plan',
           'image' => 'assets/royal.jpg',
+          'price' => 'Rp60.000/Meal',
+          'description' => 'Gourmet experience in every bite, crafted for royalty.',
           'features' => [
               'Premium meals with gourmet ingredients',
               'Designed for those who appreciate fine dining',
               'Includes exotic and seasonal ingredients'
-          ]
+          ],
+          'modalId' => 'royalModal',
+          'modalContent' => view('components.modals.royal')->render()
       ])
-
     </div>
   </section>
-
 </body>
 </html>
