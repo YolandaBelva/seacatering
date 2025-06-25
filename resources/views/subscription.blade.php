@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customize Your Meal Plan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fade-pulse {
+      0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+  </style>
 </head>
 <body class="bg-green-100 min-h-screen flex items-center justify-center py-10 px-4">
   <div class="w-full max-w-3xl bg-white shadow-md rounded-xl p-8">
@@ -16,39 +28,53 @@
       <div>
         <label for="name" class="block font-semibold mb-1">Name*</label>
         <input type="text" id="name" placeholder="Enter your FullName" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md " />
+          class="w-full px-4 py-2 border border-gray-300 rounded-md ">
       </div>
 
       <div>
         <label for="phone" class="block font-semibold mb-1">Phone Number*</label>
         <input type="tel" id="phone" placeholder="Enter your phone number" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md " />
+          class="w-full px-4 py-2 border border-gray-300 rounded-md">
       </div>
 
+      <!-- PLAN CARDS -->
       <div>
         <label class="block font-semibold mb-2">Plan</label>
-        <div class="space-y-4">
-          <div class="flex items-start space-x-3">
-            <input type="radio" id="diet" name="plan" value="Diet" checked class="mt-1">
-            <label for="diet">
-              <strong>Diet Plan</strong><br>
-              <span class="text-sm text-gray-600">Balanced meals for everyday health</span>
-            </label>
-          </div>
-          <div class="flex items-start space-x-3">
-            <input type="radio" id="protein" name="plan" value="Protein" class="mt-1">
-            <label for="protein">
-              <strong>Protein Plan</strong><br>
-              <span class="text-sm text-gray-600">High-protein meals for fitness enthusiasts</span>
-            </label>
-          </div>
-          <div class="flex items-start space-x-3">
-            <input type="radio" id="royal" name="plan" value="Royal" class="mt-1">
-            <label for="royal">
-              <strong>Royal Plan</strong><br>
-              <span class="text-sm text-gray-600">Premium meals with gourmet ingredients</span>
-            </label>
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Diet Plan -->
+          <label class="relative cursor-pointer">
+            <input type="radio" name="plan" value="Diet" class="sr-only peer" checked>
+            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
+              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60  rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
+              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Diet Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
+              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Diet Plan</h3>
+              <p class="text-sm text-gray-600 text-center">Balanced meals for everyday health</p>
+            </div>
+          </label>
+
+          <!-- Protein Plan -->
+          <label class="relative cursor-pointer">
+            <input type="radio" name="plan" value="Protein" class="sr-only peer">
+            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
+              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60 rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
+              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Protein Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
+              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Protein Plan</h3>
+              <p class="text-sm text-gray-600 text-center">High-protein meals for fitness</p>
+            </div>
+          </label>
+
+          <!-- Royal Plan -->
+          <label class="relative cursor-pointer">
+            <input type="radio" name="plan" value="Royal" class="sr-only peer">
+            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
+              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60 rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
+              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Royal Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
+              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Royal Plan</h3>
+              <p class="text-sm text-gray-600 text-center">Premium meals with gourmet ingredients</p>
+            </div>
+          </label>
+
         </div>
       </div>
 
