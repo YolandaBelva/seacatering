@@ -1,119 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customize Your Meal Plan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SEA Catering – User Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    @keyframes fade-pulse {
-      0%, 100% {
-        opacity: 0.5;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-    }
+    body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body class="bg-green-100 min-h-screen flex items-center justify-center py-10 px-4">
-  <div class="w-full max-w-3xl bg-white shadow-md rounded-xl p-8">
-    <h1 class="text-2xl font-bold mb-6 text-green-600 text-center">Customize Your Meal Plan</h1>
-    
-    <form method="POST" action="{{ route('subscription') }}" class="space-y-6">
-      @csrf
 
-      <div>
-        <label for="name" class="block font-semibold mb-1">Name*</label>
-        <input type="text" id="name" placeholder="Enter your FullName" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md ">
+
+
+<body class="bg-green-50 min-h-screen p-8">
+
+    <!-- Navbar -->
+  <header class="bg-white shadow">
+    @include('components.navbar')
+  </header>
+
+  <div class="max-w-5xl mx-auto space-y-10">
+    <!-- Header -->
+    <div class="text-center">
+      <h1 class="text-5xl font-bold text-green-700 drop-shadow-sm">👋 Welcome, <span id="userName">User</span></h1>
+      <p class="text-gray-500 text-lg mt-2">Your SEA Catering dashboard</p>
+    </div>
+
+    <!-- Active Subscription -->
+    <div id="activeSubscription" class="rounded-3xl p-8 border-l-4 border-green-400 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
+      <p class="text-gray-500 italic">Loading subscription...</p>
+    </div>
+
+    <!-- Pause Subscription -->
+    <div class="rounded-3xl p-8 border-l-4 border-yellow-400 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
+      <div class="flex items-center mb-6 gap-4">
+        <div class="text-4xl">⏸️</div>
+        <h2 class="text-2xl font-bold text-yellow-600">Pause Subscription</h2>
       </div>
-
-      <div>
-        <label for="phone" class="block font-semibold mb-1">Phone Number*</label>
-        <input type="tel" id="phone" placeholder="Enter your phone number" required
-          class="w-full px-4 py-2 border border-gray-300 rounded-md">
-      </div>
-
-      <!-- PLAN CARDS -->
-      <div>
-        <label class="block font-semibold mb-2">Plan</label>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <!-- Diet Plan -->
-          <label class="relative cursor-pointer">
-            <input type="radio" name="plan" value="Diet" class="sr-only peer" checked>
-            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
-              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60  rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
-              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Diet Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
-              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Diet Plan</h3>
-              <p class="text-sm text-gray-600 text-center">Balanced meals for everyday health</p>
-            </div>
-          </label>
-
-          <!-- Protein Plan -->
-          <label class="relative cursor-pointer">
-            <input type="radio" name="plan" value="Protein" class="sr-only peer">
-            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
-              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60 rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
-              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Protein Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
-              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Protein Plan</h3>
-              <p class="text-sm text-gray-600 text-center">High-protein meals for fitness</p>
-            </div>
-          </label>
-
-          <!-- Royal Plan -->
-          <label class="relative cursor-pointer">
-            <input type="radio" name="plan" value="Royal" class="sr-only peer">
-            <div class="group relative w-full h-full p-6 rounded-xl bg-white/90 backdrop-blur-md outline outline-2 outline-white shadow-xl transition-all duration-300 peer-checked:ring-4 peer-checked:ring-green-400">
-              <div class="absolute top-1/2 left-1/2 w-32 h-32 opacity-60 rounded-full -z-10 animate-[fade-pulse_4s_ease-in-out_infinite]"></div>
-              <img src="/storage/images/640905d9-6f8d-4b35-aff8-94d2456e0d22.png" alt="Royal Plan" class="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-green-400">
-              <h3 class="text-lg font-bold mb-2 text-center text-green-700">Royal Plan</h3>
-              <p class="text-sm text-gray-600 text-center">Premium meals with gourmet ingredients</p>
-            </div>
-          </label>
-
+      <form class="grid sm:grid-cols-2 gap-6" id="pauseForm">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-600">Pause From</label>
+          <input name="pause_from" type="date" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none">
         </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-2">Select Meal Types (at least 1)</label>
-        <div class="flex flex-wrap gap-4">
-          <label><input type="checkbox" name="meal-type" class="mr-1"> Breakfast</label>
-          <label><input type="checkbox" name="meal-type" class="mr-1"> Lunch</label>
-          <label><input type="checkbox" name="meal-type" class="mr-1"> Dinner</label>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-600">Pause Until</label>
+          <input name="pause_until" type="date" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none">
         </div>
-      </div>
-
-      <div>
-        <label class="block font-semibold mb-2">Select Delivery Days</label>
-        <div class="grid grid-cols-2 gap-2 md:grid-cols-3">
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Monday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Tuesday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Wednesday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Thursday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Friday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Saturday</label>
-          <label><input type="checkbox" name="delivery-day" class="mr-1"> Sunday</label>
+        <div class="col-span-2 text-right">
+          <button type="submit" class="mt-4 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow-lg transition">Pause</button>
         </div>
-      </div>
+      </form>
+    </div>
 
-      <div>
-        <label for="allergies" class="block font-semibold mb-1">Allergies (optional)</label>
-        <textarea id="allergies" placeholder="Type any allergies here..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100" rows="3"></textarea>
+    <!-- Cancel Subscription -->
+    <div class="rounded-3xl p-8 border-l-4 border-red-500 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
+      <div class="flex items-center mb-6 gap-4">
+        <div class="text-4xl">❌</div>
+        <h2 class="text-2xl font-bold text-red-600">Cancel Subscription</h2>
       </div>
-
-      <div class="bg-green-50 p-4 rounded-md border border-green-200">
-        <strong class="block mb-1">Price Calculation</strong>
-        <p class="text-sm">Total Price = Plan Price × Number of Meal Types × Number of Delivery Days × 4.3</p>
-        <p class="text-sm text-gray-600">Example: Diet Plan (IDR 150,000) × 2 Meal Types × 5 Delivery Days × 4.3 = IDR 6,450,000</p>
-      </div>
-
-      <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-semibold transition">Subscribe</button>
-    </form>
+      <p class="text-gray-600 mb-4 text-sm sm:text-base">Once canceled, you will no longer receive meals. This action is irreversible.</p>
+      <button id="cancelButton" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-lg transition">
+        Cancel My Subscription
+      </button>
+    </div>
   </div>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      const name = localStorage.getItem('user_name');
+      if (name) document.getElementById('userName').textContent = name;
+
+      const container = document.getElementById('activeSubscription');
+      const cancelButton = document.getElementById('cancelButton');
+      let subscriptionId = null;
+
+      if (!token) {
+        container.innerHTML = "<p class='text-red-500'>You are not logged in.</p>";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/subscriptions", {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+          }
+        });
+
+        const result = await response.json();
+
+        if (!result.status || result.data.length === 0) {
+          container.innerHTML = `<p class="text-gray-600">You have no active subscriptions.</p>`;
+          return;
+        }
+
+        const sub = result.data[0];
+        subscriptionId = sub.id;
+        const plan = sub.plan;
+        const mealTypes = Array.isArray(sub.meal_types) ? sub.meal_types : JSON.parse(sub.meal_types || "[]");
+        const deliveryDays = Array.isArray(sub.delivery_days) ? sub.delivery_days : JSON.parse(sub.delivery_days || "[]");
+        const price = parseInt(plan.price || 0);
+        const total = price * mealTypes.length * deliveryDays.length * 4.3;
+
+        const statusDisplay = {
+          'ACTIVE': { color: 'text-green-600', icon: '✅' },
+          'PAUSED': { color: 'text-yellow-600', icon: '⏸️' },
+          'CANCELED': { color: 'text-red-600', icon: '❌' }
+        };
+
+        const statusInfo = statusDisplay[sub.status] || { color: 'text-gray-600', icon: 'ℹ️' };
+
+        container.innerHTML = `
+          <div class="flex items-center mb-6 gap-4">
+            <div class="text-4xl">📦</div>
+            <h2 class="text-2xl font-bold text-green-700">Active Subscription</h2>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 text-gray-700 text-sm sm:text-base">
+            <p><strong>Plan:</strong> ${plan.name}</p>
+            <p><strong>Meal Types:</strong> ${mealTypes.join(", ")}</p>
+            <p><strong>Delivery Days:</strong> ${deliveryDays.join(", ")}</p>
+            <p><strong>Price Per Meal:</strong> Rp${price.toLocaleString()}</p>
+            <p><strong>Total Price:</strong> Rp${total.toLocaleString()} / week</p>
+            <p><strong>Status:</strong> <span class="${statusInfo.color} font-semibold">${statusInfo.icon} ${sub.status}</span></p>
+          </div>
+        `;
+
+      } catch (err) {
+        container.innerHTML = `<p class="text-red-500">Error fetching subscription data.</p>`;
+        console.error(err);
+      }
+
+      // Pause Subscription
+      const pauseForm = document.getElementById('pauseForm');
+      pauseForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(pauseForm);
+        const pauseFrom = formData.get('pause_from');
+        const pauseUntil = formData.get('pause_until');
+        if (!pauseFrom || !pauseUntil || !subscriptionId) return alert('Please fill in all fields.');
+
+        try {
+          const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/pause`, {
+            method: "PUT",
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({ pause_from: pauseFrom, pause_until: pauseUntil })
+          });
+
+          const result = await res.json();
+          if (result.status) {
+            alert("Subscription paused successfully.");
+            location.reload();
+          } else {
+            alert("Failed to pause subscription: " + (result.message || "Unknown error"));
+          }
+        } catch (error) {
+          alert("Error during pause request.");
+          console.error(error);
+        }
+      });
+
+      // Cancel Subscription
+      cancelButton.addEventListener('click', async () => {
+        if (!subscriptionId || !confirm("Are you sure you want to cancel your subscription?")) return;
+        try {
+          const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/cancel`, {
+            method: "PUT",
+            headers: {
+              "Authorization": "Bearer " + token,
+              "Accept": "application/json"
+            }
+          });
+          const result = await res.json();
+          if (result.status) {
+            alert("Subscription canceled successfully.");
+            location.reload();
+          } else {
+            alert("Failed to cancel: " + (result.message || "Unknown error"));
+          }
+        } catch (err) {
+          alert("Error canceling subscription.");
+          console.error(err);
+        }
+      });
+
+    });
+  </script>
 </body>
 </html>
