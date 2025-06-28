@@ -1,45 +1,45 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class TestimonialController extends Controller
 {
+    // Tambah testimonial
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
-            'review' => 'nullable|string|max:1000',
-            'rating' => 'required|integer|min:1|max:5'
-        ]);
+        {
+            $request->validate([
+                'rating' => 'required|integer|min:1|max:5',
+                'review' => 'required|string',
+            ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ], 422);
+            $user = auth()->user(); // otomatis dapat dari session
+            Testimonial::create([
+                'name' => $user->name,
+                'rating' => $request->rating,
+                'review' => $request->review,
+            ]);
+
+            return response()->json(['message' => 'Success']);
         }
 
-        $testimonial = Testimonial::create([
-            'user_id' => $request->user_id,
-            'review' => $request->review,
-            'rating' => $request->rating,
-        ]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Testimonial submitted successfully.',
-            'data' => $testimonial
-        ], 201);
-    }
 
+    // Tampilkan semua testimonial
     public function index()
     {
-        $testimonials = Testimonial::with('user')->latest()->get();
+        $testimonials = Testimonial::latest()->get();
+        return response()->json($testimonials);
+    }
+
+    // Tampilkan berdasarkan nama user
+    public function showByName($name)
+    {
+        $testimonials = Testimonial::where('name', $name)->get();
         return response()->json($testimonials);
     }
 }
