@@ -9,15 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->tinyInteger('rating');
             $table->text('review');
-            $table->integer('rating');
             $table->timestamps();
-
         });
     }
 

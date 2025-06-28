@@ -9,18 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('meal_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->double('price');
+            $table->string('price');
             $table->text('description');
-            $table->string('image_url');
+            $table->json('features');
+            $table->string('image_url')->nullable();
+            $table->longText('long_description')->nullable();
             $table->timestamps();
-
         });
     }
+
 
     /**
      * Reverse the migrations.

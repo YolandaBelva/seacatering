@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('phone_number');
+            $table->string('phone');
             $table->foreignId('plan_id')->constrained('meal_plans')->onDelete('cascade');
-            $table->string('mealType');
+            $table->string('meal_types');
             $table->string('delivery_days');
             $table->text('allergies')->nullable();
             $table->enum('status', ['ACTIVE', 'PAUSE', 'CANCEL']);
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->date('pause_period_start')->nullable();
             $table->date('pause_period_end')->nullable();
             $table->timestamps();
-
         });
     }
 
