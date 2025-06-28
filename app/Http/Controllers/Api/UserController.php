@@ -4,64 +4,57 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function register(Request $request)
+{
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'password' => 'required|string|min:6',
+        'role'     => 'required|string|in:user,admin',
+    ]);
+
+    $user = User::create([
+        'name'     => $request->name,
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+        'role'     => $request->role,
+    ]);
+
+    Auth::login($user);
+
+    return response()->json(['message' => 'User registered', 'user' => $user]);
+}
+
+
+    public function login(Request $request)
     {
-        return User::all();
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json(['message' => 'Login successful', 'user' => Auth::user()]);
+        }
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function logout(Request $request)
     {
-        $request->validate([
-            'full_name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string',
-            'role' => 'in:USER,ADMIN'
-        ]);
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        $user = User::create([
-            'full_name' => $request->full_name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role ?? 'USER'
-        ]);
-
-        return response()->json($user, 201);
+        return response()->json(['message' => 'Logged out']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function me()
     {
-        return User::findOrFail($id);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        return response()->json($user);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        User::destroy($id);
-        return response()->json(null, 204);
+        return response()->json(Auth::user());
     }
 }
