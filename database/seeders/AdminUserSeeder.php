@@ -6,20 +6,18 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class DatabaseSeeder extends Seeder
+class AdminUserSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Seeder untuk admin
         User::updateOrCreate(
             ['email' => 'admin@seacatering.com'],
             [
-                'name' => 'admin',
+                'name' => 'Admin SEA Catering',
+                'username' => 'admin',
+                'email' => 'admin@seacatering.com',
                 'password' => Hash::make('admin123'),
-                'role' => 'ADMIN',
+                'role' => 'admin'
             ]
         );
     }
