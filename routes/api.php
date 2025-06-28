@@ -1,51 +1,47 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MealPlanController;
-use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\TestimonialController;
+use App\Http\Controllers\Api\SubscriptionController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::get('/users', [AuthController::class, 'indexAll']);
+    Route::put('/users/{id}/role', [AuthController::class, 'updateRole']);
+});
+// Auth
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Meal Plans (public)
+Route::get('/mealplans', [MealPlanController::class, 'index']);
+
+// Testimonials
+Route::get('/testimonials', [TestimonialController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/testimonials', [TestimonialController::class, 'store']);
+
+// Subscriptions
+Route::middleware('auth:sanctum')->group(function () {
+    // Simpan subscription
+    Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+
+    // Tampilkan subscription milik user yang sedang login
+    Route::get('/subscriptions', [SubscriptionController::class, 'indexByUser']);
+    Route::put('/subscriptions/{id}/pause', [SubscriptionController::class, 'pause']);
+    Route::put('/subscriptions/{id}/cancel', [SubscriptionController::class, 'cancel']);
+    Route::get('/admin/subscriptions', [SubscriptionController::class, 'getByDateRange']);
+    Route::get('/admin/subscriptions', [SubscriptionController::class, 'indexAll']);
+    Route::get('/subscriptions/filter', [SubscriptionController::class, 'filterByDate']);
+
 });
 
-Route::get('/ping', function () {
-    return response()->json(['message' => 'API aktif!']);
-});
+// Admin-only: Tampilkan semua subscriptions
+Route::middleware(['auth:sanctum'])->get('/admin/subscriptions', [SubscriptionController::class, 'indexAll']);
+Route::middleware(['auth:sanctum'])->get('/admin/revenue', [SubscriptionController::class, 'getMonthlyRevenue']);
+Route::get('/admin/reactivations', [SubscriptionController::class, 'getReactivations']);
+Route::get('/admin/active-subscriptions', [SubscriptionController::class, 'getTotalActiveSubscriptions']);
 
-Route::apiResource('users', UserController::class);
 
 
-Route::prefix('meal-plans')->group(function () {
-    Route::get('/', [MealPlanController::class, 'index']);
-    Route::get('/{id}', [MealPlanController::class, 'show']);
-    Route::post('/', [MealPlanController::class, 'store']);
-    Route::put('/{id}', [MealPlanController::class, 'update']);
-    Route::delete('/{id}', [MealPlanController::class, 'destroy']);
-});
-
-Route::prefix('subscriptions')->group(function () {
-    Route::get('/', [SubscriptionController::class, 'index']);         
-    Route::get('/{id}', [SubscriptionController::class, 'show']);      
-    Route::post('/', [SubscriptionController::class, 'subscribe']);    
-    Route::put('/{id}', [SubscriptionController::class, 'update']);    
-    Route::delete('/{id}', [SubscriptionController::class, 'destroy']);
-});
-
-Route::prefix('testimonials')->group(function () {
-    Route::get('/', [TestimonialController::class, 'index']);
-    Route::post('/', [TestimonialController::class, 'store']);
-});
