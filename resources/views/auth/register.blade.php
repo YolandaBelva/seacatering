@@ -13,11 +13,9 @@
     <!-- Left Section (Form) -->
     <div class="p-8 md:p-10 flex flex-col justify-center">
       <h2 class="text-3xl font-bold text-gray-800 mb-2">Sign Up to your Account</h2>
-      <p class="text-gray-500 mb-6">Hey, welcome back to your special place</p>
+      <p class="text-gray-500 mb-6">Hey, welcome to your special place</p>
 
-      <form method="POST" action="{{ route('register') }}" class="space-y-5" onsubmit="handleSubmit(event)">
-        @csrf
-
+      <form id="registerForm" class="space-y-5">
         <div>
           <label for="username" class="block font-semibold mb-1">Username</label>
           <input id="username" name="username" type="text" required
@@ -49,7 +47,7 @@
         </button>
 
         <p class="text-sm text-center text-gray-600 mt-4">
-          Have an account? 
+          Already have an account? 
           <a href="/login" class="text-green-500 font-semibold hover:underline">Sign In</a>
         </p>
       </form>
@@ -61,8 +59,13 @@
     </div>
   </div>
 
+  <!-- Register Script -->
   <script>
-    function handleSubmit(event) {
+    const form = document.getElementById('registerForm');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
       const btn = document.getElementById('submitBtn');
       const text = document.getElementById('btnText');
       const spinner = document.getElementById('spinner');
@@ -70,7 +73,44 @@
       btn.disabled = true;
       text.textContent = "Signing Up...";
       spinner.classList.remove("hidden");
-    }
+
+      const username = document.getElementById('username').value;
+      const email    = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.status) {
+          alert('Register successful!');
+          localStorage.setItem('token', data.token); // Optional
+          window.location.href = '/login';
+        } else {
+          let msg = 'Register failed.';
+          if (data.errors) {
+            msg = Object.values(data.errors).flat().join('\n');
+          } else if (data.message) {
+            msg = data.message;
+          }
+          alert(msg);
+        }
+      } catch (err) {
+        alert('Request error: ' + err.message);
+      }
+
+      btn.disabled = false;
+      text.textContent = "Sign Up";
+      spinner.classList.add("hidden");
+    });
   </script>
 
 </body>

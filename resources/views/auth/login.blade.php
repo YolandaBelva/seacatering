@@ -15,13 +15,11 @@
       <h2 class="text-3xl font-bold text-gray-800 mb-2">Login to your Account</h2>
       <p class="text-gray-500 mb-6">Hey, welcome back to your special place</p>
 
-      <form method="POST" action="{{ route('login') }}" class="space-y-5" onsubmit="handleSubmit(event)">
-        @csrf
-
+      <form class="space-y-5" onsubmit="handleLogin(event)">
         <div>
-          <label for="email" class="block font-semibold mb-1">Email</label>
-          <input id="email" type="email" name="email" required
-            placeholder="Input Your Email"
+          <label for="username" class="block font-semibold mb-1">Username</label>
+          <input id="username" type="text" name="username" required
+            placeholder="Input Your Username"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-300 outline-none"/>
         </div>
 
@@ -32,13 +30,14 @@
             class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-300 outline-none"/>
         </div>
 
+        <div id="errorMessage" class="text-red-500 text-sm hidden"></div>
+
         <button id="submitBtn" type="submit"
           class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-200 flex items-center justify-center gap-2">
           <span id="btnText">Sign In</span>
           <svg id="spinner" class="hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-              d="M4 12a8 8 0 018-8v8H4z"></path>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
           </svg>
         </button>
 
@@ -55,16 +54,55 @@
     </div>
   </div>
 
-  <!-- Script for button animation -->
+  <!-- Script -->
   <script>
-    function handleSubmit(event) {
+    async function handleLogin(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
       const button = document.getElementById('submitBtn');
       const text = document.getElementById('btnText');
       const spinner = document.getElementById('spinner');
+      const errorDiv = document.getElementById('errorMessage');
 
       button.disabled = true;
       text.textContent = 'Signing In...';
       spinner.classList.remove('hidden');
+      errorDiv.classList.add('hidden');
+      errorDiv.textContent = '';
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw data;
+        }
+
+        // Save token
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user_name', data.user.name);
+        localStorage.setItem('role', data.user.role);
+
+        // Redirect
+        window.location.href = '/'; // ganti dengan route FE kamu
+      } catch (error) {
+        errorDiv.classList.remove('hidden');
+        errorDiv.textContent = error.message || 'Login failed. Please check your credentials.';
+      } finally {
+        button.disabled = false;
+        text.textContent = 'Sign In';
+        spinner.classList.add('hidden');
+      }
     }
   </script>
 </body>
