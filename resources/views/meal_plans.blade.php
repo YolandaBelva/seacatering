@@ -75,7 +75,7 @@
 
           const card = `
             <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow">
-              <img src="/assets/${plan.image_url}" alt="${plan.name}" class="rounded-lg mb-4 object-cover h-40 w-full" />
+              <img src="/assets/${plan.image_url}" alt="${plan.name}" class="rounded-lg mb-4 object-cover h-40 w-full">
               <h3 class="mb-4 text-2xl font-semibold">${plan.name}</h3>
               <p class="font-light text-gray-500 sm:text-lg">${plan.description}</p>
               <div class="flex justify-center items-baseline my-5">

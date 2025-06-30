@@ -26,7 +26,6 @@ Route::middleware('auth:sanctum')->post('/testimonials', [TestimonialController:
 Route::middleware('auth:sanctum')->group(function () {
     // Simpan subscription
     Route::post('/subscriptions', [SubscriptionController::class, 'store']);
-
     // Tampilkan subscription milik user yang sedang login
     Route::get('/subscriptions', [SubscriptionController::class, 'indexByUser']);
     Route::put('/subscriptions/{id}/pause', [SubscriptionController::class, 'pause']);

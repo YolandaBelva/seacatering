@@ -13,10 +13,18 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255|unique:users,name',
+            'fullname' => 'required|string|max:255|unique:users,fullname',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => [
+                            'required',
+                            'string',
+                            'min:8',
+                            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+                          ], // Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan karakter khusus
             'role'     => 'in:admin,user'
+        ], 
+        [
+            'password.regex' => 'Password minimum 8 characters, must include at least one uppercase letter, one lowercase letter, one number, and one special character.'
         ]);
 
 
@@ -29,7 +37,7 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name'     => $request->username,
+            'fullname'     => $request->fullname,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => $request->role ?? 'USER'
@@ -46,8 +54,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string',
-            'password' => 'required|string|min:6'
+            'email' => 'required|string',
+            'password.regex' => 'Password minimum 8 characters, must include at least one uppercase letter, one lowercase letter, one number, and one special character.'
         ]);
 
         if ($validator->fails()) {
@@ -58,8 +66,8 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Cari user berdasarkan name (username)
-        $user = User::where('name', $request->username)->first();
+        // Cari user berdasarkan name (email)
+        $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -91,7 +99,7 @@ class AuthController extends Controller
 
     public function indexAll()
 {
-    $users = \App\Models\User::select('id', 'name', 'email', 'role')->get();
+    $users = \App\Models\User::select('id', 'fullname', 'email', 'role')->get();
 
     return response()->json([
         'status' => true,

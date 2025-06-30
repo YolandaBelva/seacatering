@@ -1,196 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SEA Catering – User Dashboard</title>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customize Your Meal Plan</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
 </head>
+<body class="bg-green-100 min-h-screen flex items-center justify-center py-10 px-4">
+  <div class="w-full max-w-3xl bg-white shadow-md rounded-xl p-8">
+    <h1 class="text-2xl font-bold mb-6 text-green-600 text-center">Customize Your Meal Plan</h1>
 
+    <form id="subscriptionForm" class="space-y-6">
+      @csrf
 
-
-<body class="bg-green-50 min-h-screen p-8">
-
-    <!-- Navbar -->
-  <header class="bg-white shadow">
-    @include('components.navbar')
-  </header>
-
-  <div class="max-w-5xl mx-auto space-y-10">
-    <!-- Header -->
-    <div class="text-center">
-      <h1 class="text-5xl font-bold text-green-700 drop-shadow-sm">👋 Welcome, <span id="userName">User</span></h1>
-      <p class="text-gray-500 text-lg mt-2">Your SEA Catering dashboard</p>
-    </div>
-
-    <!-- Active Subscription -->
-    <div id="activeSubscription" class="rounded-3xl p-8 border-l-4 border-green-400 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
-      <p class="text-gray-500 italic">Loading subscription...</p>
-    </div>
-
-    <!-- Pause Subscription -->
-    <div class="rounded-3xl p-8 border-l-4 border-yellow-400 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
-      <div class="flex items-center mb-6 gap-4">
-        <div class="text-4xl">⏸️</div>
-        <h2 class="text-2xl font-bold text-yellow-600">Pause Subscription</h2>
+      <div>
+        <label for="name" class="block font-semibold mb-1">Name*</label>
+        <input type="text" id="name" name="name" readonly
+          class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
       </div>
-      <form class="grid sm:grid-cols-2 gap-6" id="pauseForm">
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-600">Pause From</label>
-          <input name="pause_from" type="date" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-        </div>
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-600">Pause Until</label>
-          <input name="pause_until" type="date" required class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-400 focus:outline-none">
-        </div>
-        <div class="col-span-2 text-right">
-          <button type="submit" class="mt-4 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-xl shadow-lg transition">Pause</button>
-        </div>
-      </form>
-    </div>
 
-    <!-- Cancel Subscription -->
-    <div class="rounded-3xl p-8 border-l-4 border-red-500 bg-white/60 backdrop-blur-md shadow hover:shadow-lg transition">
-      <div class="flex items-center mb-6 gap-4">
-        <div class="text-4xl">❌</div>
-        <h2 class="text-2xl font-bold text-red-600">Cancel Subscription</h2>
+      <div>
+        <label for="phone" class="block font-semibold mb-1">Phone Number*</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md">
       </div>
-      <p class="text-gray-600 mb-4 text-sm sm:text-base">Once canceled, you will no longer receive meals. This action is irreversible.</p>
-      <button id="cancelButton" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-lg transition">
-        Cancel My Subscription
-      </button>
-    </div>
+
+      <div>
+        <label class="block font-semibold mb-2">Select a Plan*</label>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="planContainer">
+          <!-- Plans will be rendered dynamically here -->
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-2">Select Meal Types (min. 1)</label>
+        <div class="flex gap-4 flex-wrap">
+          @foreach (['Breakfast', 'Lunch', 'Dinner'] as $meal)
+            <label><input type="checkbox" name="meal_type" value="{{ $meal }}" class="mr-1"> {{ $meal }}</label>
+          @endforeach
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-2">Select Delivery Days (min. 1)</label>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+          @foreach (['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $day)
+            <label><input type="checkbox" name="delivery_day" value="{{ $day }}" class="mr-1"> {{ $day }}</label>
+          @endforeach
+        </div>
+      </div>
+
+      <div>
+        <label for="allergies" class="block font-semibold mb-1">Allergies (optional)</label>
+        <textarea id="allergies" name="allergies" class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100" rows="3" placeholder="Type any allergies..."></textarea>
+      </div>
+
+      <div class="bg-green-50 p-4 rounded-md border border-green-200">
+        <strong class="block mb-1">💡 Price Calculation</strong>
+        <div id="priceDetails" class="text-sm text-gray-700 space-y-1">
+          <p>Plan Price: Rp0</p>
+          <p>Meal Types: 0</p>
+          <p>Delivery Days: 0</p>
+          <p id="priceFormula" class="font-medium">Total = 0 × 0 × 0 × 4.3 = Rp0</p>
+        </div>
+      </div>
+
+
+
+      <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-md font-semibold transition">Subscribe</button>
+    </form>
   </div>
 
-  <!-- Script -->
+  <!-- JavaScript -->
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const token = localStorage.getItem('token');
-      const name = localStorage.getItem('user_name');
-      if (name) document.getElementById('userName').textContent = name;
+document.addEventListener('DOMContentLoaded', async () => {
+  const nameField = document.getElementById('name');
+  const storedName = localStorage.getItem('user_name');
+  console.log("Stored Name:", storedName);
+  if (storedName) {
+    nameField.value = storedName;
+  } else {
+    alert("⚠️ Anda belum login. Nama tidak tersedia.");
+  }
 
-      const container = document.getElementById('activeSubscription');
-      const cancelButton = document.getElementById('cancelButton');
-      let subscriptionId = null;
+  const planContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-3'); // container radio plan
+  const form = document.getElementById('subscriptionForm');
+  const totalPriceEl = document.getElementById('totalPrice');
+  let planPrices = {}; // simpan id dan harga
 
-      if (!token) {
-        container.innerHTML = "<p class='text-red-500'>You are not logged in.</p>";
-        return;
+  // Ambil data meal plans dari API
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/mealplans', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       }
-
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/subscriptions", {
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Accept': 'application/json'
-          }
-        });
-
-        const result = await response.json();
-
-        if (!result.status || result.data.length === 0) {
-          container.innerHTML = `<p class="text-gray-600">You have no active subscriptions.</p>`;
-          return;
-        }
-
-        const sub = result.data[0];
-        subscriptionId = sub.id;
-        const plan = sub.plan;
-        const mealTypes = Array.isArray(sub.meal_types) ? sub.meal_types : JSON.parse(sub.meal_types || "[]");
-        const deliveryDays = Array.isArray(sub.delivery_days) ? sub.delivery_days : JSON.parse(sub.delivery_days || "[]");
-        const price = parseInt(plan.price || 0);
-        const total = price * mealTypes.length * deliveryDays.length * 4.3;
-
-        const statusDisplay = {
-          'ACTIVE': { color: 'text-green-600', icon: '✅' },
-          'PAUSED': { color: 'text-yellow-600', icon: '⏸️' },
-          'CANCELED': { color: 'text-red-600', icon: '❌' }
-        };
-
-        const statusInfo = statusDisplay[sub.status] || { color: 'text-gray-600', icon: 'ℹ️' };
-
-        container.innerHTML = `
-          <div class="flex items-center mb-6 gap-4">
-            <div class="text-4xl">📦</div>
-            <h2 class="text-2xl font-bold text-green-700">Active Subscription</h2>
-          </div>
-          <div class="grid md:grid-cols-2 gap-4 text-gray-700 text-sm sm:text-base">
-            <p><strong>Plan:</strong> ${plan.name}</p>
-            <p><strong>Meal Types:</strong> ${mealTypes.join(", ")}</p>
-            <p><strong>Delivery Days:</strong> ${deliveryDays.join(", ")}</p>
-            <p><strong>Price Per Meal:</strong> Rp${price.toLocaleString()}</p>
-            <p><strong>Total Price:</strong> Rp${total.toLocaleString()} / week</p>
-            <p><strong>Status:</strong> <span class="${statusInfo.color} font-semibold">${statusInfo.icon} ${sub.status}</span></p>
-          </div>
-        `;
-
-      } catch (err) {
-        container.innerHTML = `<p class="text-red-500">Error fetching subscription data.</p>`;
-        console.error(err);
-      }
-
-      // Pause Subscription
-      const pauseForm = document.getElementById('pauseForm');
-      pauseForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(pauseForm);
-        const pauseFrom = formData.get('pause_from');
-        const pauseUntil = formData.get('pause_until');
-        if (!pauseFrom || !pauseUntil || !subscriptionId) return alert('Please fill in all fields.');
-
-        try {
-          const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/pause`, {
-            method: "PUT",
-            headers: {
-              "Authorization": "Bearer " + token,
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify({ pause_from: pauseFrom, pause_until: pauseUntil })
-          });
-
-          const result = await res.json();
-          if (result.status) {
-            alert("Subscription paused successfully.");
-            location.reload();
-          } else {
-            alert("Failed to pause subscription: " + (result.message || "Unknown error"));
-          }
-        } catch (error) {
-          alert("Error during pause request.");
-          console.error(error);
-        }
-      });
-
-      // Cancel Subscription
-      cancelButton.addEventListener('click', async () => {
-        if (!subscriptionId || !confirm("Are you sure you want to cancel your subscription?")) return;
-        try {
-          const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/cancel`, {
-            method: "PUT",
-            headers: {
-              "Authorization": "Bearer " + token,
-              "Accept": "application/json"
-            }
-          });
-          const result = await res.json();
-          if (result.status) {
-            alert("Subscription canceled successfully.");
-            location.reload();
-          } else {
-            alert("Failed to cancel: " + (result.message || "Unknown error"));
-          }
-        } catch (err) {
-          alert("Error canceling subscription.");
-          console.error(err);
-        }
-      });
-
     });
-  </script>
+    const result = await response.json();
+    console.log("API Response:", result);
+    if (result.status && result.data) {
+      planContainer.innerHTML = ''; 
+
+      result.data.forEach((plan, index) => {
+          planPrices[plan.id] = parseFloat(plan.price);
+          const id = plan.id;
+      
+        const checked = index === 0 ? 'checked' : '';
+
+        const html = `
+          <label class="cursor-pointer relative">
+            <input type="radio" name="plan_id" value="${plan.id}" class="sr-only peer" id="${id}" ${checked}>
+            <div class="p-6 rounded-xl bg-white outline outline-2 outline-white shadow-xl peer-checked:ring-4 peer-checked:ring-green-400">
+              <h3 class="text-lg font-bold mb-2 text-center text-green-700">${plan.name}</h3>
+              <p class="text-sm text-gray-600 text-center">${plan.description}</p>
+              <p class="text-xs text-center text-gray-500 mt-2">Rp${parseInt(plan.price).toLocaleString()}</p>
+            </div>
+          </label>
+        `;
+        planContainer.insertAdjacentHTML('beforeend', html);
+      });
+
+      calculatePrice();
+    } else {
+      alert("⚠️ Gagal mengambil data meal plans.");
+    }
+  } catch (err) {
+    alert("⚠️ Error saat mengambil meal plans: " + err.message);
+  }
+
+  function calculatePrice() {
+  const planId = document.querySelector('input[name="plan_id"]:checked')?.value;
+  const planPrice = planPrices[planId] || 0;
+  const mealTypes = Array.from(document.querySelectorAll('input[name="meal_type"]:checked')).map(cb => cb.value);
+  const deliveryDays = Array.from(document.querySelectorAll('input[name="delivery_day"]:checked')).map(cb => cb.value);
+  const multiplier = 4.3;
+  const total = planPrice * mealTypes.length * deliveryDays.length * multiplier;
+
+  // Update elemen
+  const detailsEl = document.getElementById('priceDetails');
+  if (detailsEl) {
+    detailsEl.innerHTML = `
+      <p>Plan Price: Rp${Math.round(planPrice).toLocaleString()}</p>
+      <p>Meal Types: ${mealTypes.join(', ') || '-'}</p>
+      <p>Delivery Days: ${deliveryDays.join(', ') || '-'}</p>
+      <p id="priceFormula" class="font-medium">Total: Rp${Math.round(total).toLocaleString()}</p>
+    `;
+  }
+}
+
+
+
+  // Kalkulasi ulang saat ada perubahan
+  document.addEventListener('change', (e) => {
+    if (
+      e.target.name === 'plan_id' ||
+      e.target.name === 'meal_type' ||
+      e.target.name === 'delivery_day'
+    ) {
+      calculatePrice();
+    }
+  });
+
+  // Submit form
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const phone = document.getElementById('phone').value;
+    const allergies = document.getElementById('allergies').value;
+    const planId = document.querySelector('input[name="plan_id"]:checked')?.value;
+    const mealTypes = Array.from(document.querySelectorAll('input[name="meal_type"]:checked')).map(cb => cb.value);
+    const deliveryDays = Array.from(document.querySelectorAll('input[name="delivery_day"]:checked')).map(cb => cb.value);
+
+    if (!planId || mealTypes.length === 0 || deliveryDays.length === 0) {
+      alert("❌ Pastikan semua kolom telah dipilih dengan benar.");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/subscriptions", {
+        method: "POST",
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          phone: phone,
+          plan_id: planId,
+          meal_types: mealTypes,
+          delivery_days: deliveryDays,
+          allergies: allergies
+        })
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        alert("✅ Subscription berhasil!");
+        form.reset();
+        calculatePrice(); // reset harga juga
+      } else {
+        alert("❌ Gagal: " + (result.message || "Terjadi kesalahan"));
+      }
+
+    } catch (err) {
+      alert("⚠️ Error: " + err.message);
+    }
+  });
+});
+</script>
+
 </body>
 </html>

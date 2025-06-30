@@ -17,9 +17,9 @@
 
       <form id="registerForm" class="space-y-5">
         <div>
-          <label for="username" class="block font-semibold mb-1">Username</label>
-          <input id="username" name="username" type="text" required
-            placeholder="Input Your Username"
+          <label for="fullname" class="block font-semibold mb-1">Full Name</label>
+          <input id="fullname" name="fullname" type="text" required
+            placeholder="Input Your Full Name"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-300 outline-none"/>
         </div>
 
@@ -32,10 +32,18 @@
 
         <div>
           <label for="password" class="block font-semibold mb-1">Password</label>
-          <input id="password" name="password" type="password" required
-            placeholder="Input Your Password"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-300 outline-none"/>
+            <div class="relative">
+              <input id="password" name="password" type="password" required placeholder="Input Your Password"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-green-300 outline-none pr-10"/>
+              <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" id="iconEye" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
         </div>
+
 
         <button id="submitBtn" type="submit"
           class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition duration-200 flex items-center justify-center gap-2">
@@ -74,7 +82,7 @@
       text.textContent = "Signing Up...";
       spinner.classList.remove("hidden");
 
-      const username = document.getElementById('username').value;
+      const fullname = document.getElementById('fullname').value;
       const email    = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
@@ -85,7 +93,7 @@
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
-          body: JSON.stringify({ username, email, password })
+          body: JSON.stringify({ fullname, email, password })
         });
 
         const data = await res.json();
@@ -112,6 +120,25 @@
       spinner.classList.add("hidden");
     });
   </script>
+
+  <script>
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordField = document.getElementById('password');
+  const iconEye = document.getElementById('iconEye');
+
+  togglePassword.addEventListener('click', function () {
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+
+    // Ganti icon antara eye dan eye-slash
+    if (type === 'text') {
+      iconEye.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.964 9.964 0 012.64-4.362m3.223-2.164A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.973 9.973 0 01-4.43 5.818M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6.621 6.621L4 20m0 0l4-4m-4 4l4-4"/></svg>';
+    } else {
+      iconEye.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>';
+    }
+  });
+</script>
+
 
 </body>
 </html>

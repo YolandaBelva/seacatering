@@ -19,7 +19,7 @@ class TestimonialController extends Controller
 
             $user = auth()->user(); // otomatis dapat dari session
             Testimonial::create([
-                'name' => $user->name,
+                'name' => $user->fullname,
                 'rating' => $request->rating,
                 'review' => $request->review,
             ]);

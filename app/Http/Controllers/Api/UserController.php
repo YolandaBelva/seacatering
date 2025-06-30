@@ -4,57 +4,112 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request)
-{
-    $request->validate([
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6',
-        'role'     => 'required|string|in:user,admin',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string|max:255|unique:users,fullname',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'role'     => 'in:admin,user'
+        ]);
 
-    $user = User::create([
-        'name'     => $request->name,
-        'email'    => $request->email,
-        'password' => Hash::make($request->password),
-        'role'     => $request->role,
-    ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Validation error',
+                'errors'  => $validator->errors()
+            ], 422);
+        }
 
-    Auth::login($user);
+        $user = User::create([
+            'fullname' => $request->fullname,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role ?? 'USER'
+        ]);
 
-    return response()->json(['message' => 'User registered', 'user' => $user]);
-}
-
+        return response()->json([
+            'status'  => true,
+            'message' => 'User registered successfully',
+            'user'    => $user
+        ], 201);
+    }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|string',
+            'password' => 'required|string|min:6'
+        ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return response()->json(['message' => 'Login successful', 'user' => Auth::user()]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Validation error',
+                'errors'  => $validator->errors()
+            ], 422);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        // Cari user berdasarkan fullname
+        $user = User::where('fullname', $request->fullname)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+
+        // Jika pakai Sanctum (untuk token login)
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Login successful',
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->user()->tokens()->delete();
 
-        return response()->json(['message' => 'Logged out']);
+        return response()->json([
+            'status' => true,
+            'message' => 'Logged out successfully'
+        ]);
     }
 
-    public function me()
+    public function indexAll()
     {
-        return response()->json(Auth::user());
+        $users = User::select('id', 'fullname', 'email', 'role')->get();
+
+        return response()->json([
+            'status' => true,
+            'users' => $users
+        ]);
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $request->validate([
+            'role' => 'required|in:USER,ADMIN'
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Role updated successfully'
+        ]);
     }
 }

@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@seacatering.com'],
             [
-                'name' => 'admin',
+                'fullname' => 'admin',
                 'password' => Hash::make('admin123'),
                 'role' => 'ADMIN',
             ]
