@@ -90,7 +90,8 @@
 
   // Ambil data meal plans dari API
   try {
-    const response = await fetch('http://127.0.0.1:8000/api/mealplans', {
+    // const response = await fetch('http://127.0.0.1:8000/api/mealplans', {
+    const response = await fetch('http://seacatering.my.id/api/mealplans', {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),

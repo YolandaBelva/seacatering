@@ -87,7 +87,8 @@
       const password = document.getElementById('password').value;
 
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/register', {
+        // const res = await fetch('http://127.0.0.1:8000/api/registe\r', {
+        const res = await fetch('http://seacatering.my.id/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

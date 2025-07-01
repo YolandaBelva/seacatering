@@ -121,7 +121,8 @@
       list.innerHTML = 'Loading...';
 
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/admin/users`, {
+        // const res = await fetch(`http://127.0.0.1:8000/api/admin/users`, {
+        const res = await fetch(`http://seacatering.my.id/api/admin/users`, {
           headers: {
             'Authorization': 'Bearer ' + token,
             'Accept': 'application/json'
@@ -159,7 +160,8 @@
     async function changeUserRole(userId, role) {
       const token = localStorage.getItem('token');
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/admin/users/${userId}/role`, {
+        // const res = await fetch(`http://127.0.0.1:8000/api/admin/users/${userId}/role`, {
+        const res = await fetch(`http://seacatering.my.id/api/admin/users/${userId}/role`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + token,
@@ -186,7 +188,8 @@
       if (!token) return alert("Admin token not found");
 
       try {
-        const activeRes = await fetch(`http://127.0.0.1:8000/api/admin/active-subscriptions`, {
+        // const activeRes = await fetch(`http://127.0.0.1:8000/api/admin/active-subscriptions`, {
+        const activeRes = await fetch(`http://seacatering.my.id/api/admin/active-subscriptions`, {
           headers: {
             'Authorization': 'Bearer ' + token,
             'Accept': 'application/json'
@@ -211,7 +214,8 @@
       if (!startDate || !endDate) return alert("Please select both dates.");
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/admin/subscriptions?start_date=${startDate}&end_date=${endDate}`, {
+        // const response = await fetch(`http://127.0.0.1:8000/api/admin/subscriptions?start_date=${startDate}&end_date=${endDate}`, {
+        const response = await fetch(`http://seacatering.my.id/api/admin/subscriptions?start_date=${startDate}&end_date=${endDate}`, {
           headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' }
         });
         const result = await response.json();
@@ -243,14 +247,16 @@
           });
         }
 
-        const revenueRes = await fetch(`http://127.0.0.1:8000/api/admin/revenue?start_date=${startDate}&end_date=${endDate}`, {
+        // const revenueRes = await fetch(`http://127.0.0.1:8000/api/admin/revenue?start_date=${startDate}&end_date=${endDate}`, {
+        const revenueRes = await fetch(`http://seacatering.my.id/api/admin/revenue?start_date=${startDate}&end_date=${endDate}`, {
           headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' }
         });
         const revenueData = await revenueRes.json();
         document.getElementById('monthlyRevenue').textContent =
           revenueData.status ? `Rp${parseInt(revenueData.revenue).toLocaleString()}` : 'Rp0';
 
-        const reactivationRes = await fetch(`http://127.0.0.1:8000/api/admin/reactivations?start_date=${startDate}&end_date=${endDate}`, {
+        // const reactivationRes = await fetch(`http://127.0.0.1:8000/api/admin/reactivations?start_date=${startDate}&end_date=${endDate}`, {
+        const reactivationRes = await fetch(`http://seacatering.my.id/api/admin/reactivations?start_date=${startDate}&end_date=${endDate}`, {
           headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' }
         });
         const reactivationData = await reactivationRes.json();

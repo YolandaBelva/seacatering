@@ -46,7 +46,8 @@
       }
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/subscriptions", {
+        // const response = await fetch("http://127.0.0.1:8000/api/subscriptions", {
+        const response = await fetch("http://seacatering.my.id/api/subscriptions", {
           headers: {
             'Authorization': 'Bearer ' + token,
             'Accept': 'application/json'
@@ -127,7 +128,8 @@
             if (!pauseFrom || !pauseUntil) return alert('Please fill in both dates.');
 
             try {
-              const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/pause`, {
+              // const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/pause`, {
+              const res = await fetch(`http://seacatering.my.id/api/subscriptions/${subscriptionId}/pause`, {
                 method: "PUT",
                 headers: {
                   "Authorization": "Bearer " + token,
@@ -157,7 +159,8 @@
             if (!confirm("Are you sure you want to cancel this subscription?")) return;
 
             try {
-              const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/cancel`, {
+              // const res = await fetch(`http://127.0.0.1:8000/api/subscriptions/${subscriptionId}/cancel`, {
+              const res = await fetch(`http://seacatering.my.id/api/subscriptions/${subscriptionId}/cancel`, {
                 method: "PUT",
                 headers: {
                   "Authorization": "Bearer " + token,

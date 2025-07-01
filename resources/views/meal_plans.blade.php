@@ -51,7 +51,8 @@
       const container = document.getElementById('mealPlansContainer');
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/mealplans');
+        // const response = await fetch('http://127.0.0.1:8000/api/mealplans');
+        const response = await fetch('http://seacatering.my.id/api/mealplans');
         const result = await response.json();
         const data = result.data || result;
 
