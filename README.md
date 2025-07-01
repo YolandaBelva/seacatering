@@ -102,12 +102,16 @@ php artisan db:seed --class=MealPlanSeeder
 - View new subscriptions, revenue, reactivations, and active subscriptions.
 - Manage user roles (USER/ADMIN).
 
+![Admin Dashboard](/public/assets/Admin_Dashboard.jpeg)
+
 ---
 
 ### Testimonials
 
 - Users can submit testimonials with a star rating and review.
 - Testimonials are displayed in a Swiper carousel.
+![Testimonials](/public/assets/Rating.jpeg)
+![Testimonials](/public/assets/Review.jpeg)
 
 ---
 
@@ -115,6 +119,8 @@ php artisan db:seed --class=MealPlanSeeder
 
 - Meal plans are displayed with image, name, description, price, and features.
 - Clicking "Lihat Detail" opens a modal with more information.
+
+![Meal Plans](/public/assets/Meal_Plans.jpeg)
 
 ---
 
@@ -124,6 +130,8 @@ php artisan db:seed --class=MealPlanSeeder
 - Price calculation is shown dynamically based on user selection.
 - After subscribing, users can manage (pause/cancel) their subscriptions from the dashboard.
 
+![Subscription](/public/assets/Subscriptions.jpeg)
+
 ---
 
 ### User Dashboard
@@ -132,10 +140,16 @@ php artisan db:seed --class=MealPlanSeeder
 - Pause a subscription for a selected date range.
 - Cancel a subscription.
 
+![User Dashboard](/public/assets/User_Dashboard.jpeg)
+
 ---
 
 ### Contact Us
 
 - Dedicated Contact Us page with manager name and phone number.
 
+![Contact Us](/public/assets/Contact_Us.jpeg)
+
 ---
+
+
