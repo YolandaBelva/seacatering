@@ -141,7 +141,7 @@
           row.className = "flex justify-between items-center p-3 bg-gray-100 rounded-xl";
           row.innerHTML = `
             <div>
-              <p class="font-semibold text-gray-800">${user.name}</p>
+              <p class="font-semibold text-gray-800">${user.fullname}</p>
               <p class="text-sm text-gray-500">${user.email}</p>
             </div>
             <select onchange="changeUserRole(${user.id}, this.value)" class="p-2 rounded-md border border-gray-300">
