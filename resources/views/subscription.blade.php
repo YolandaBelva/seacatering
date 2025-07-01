@@ -73,7 +73,7 @@
 
   <!-- JavaScript -->
   <script>
-document.addEventListener('DOMContentLoaded', async () => {
+  document.addEventListener('DOMContentLoaded', async () => {
   const nameField = document.getElementById('name');
   const storedName = localStorage.getItem('user_name');
   console.log("Stored Name:", storedName);
@@ -196,8 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const result = await res.json();
       if (res.ok) {
         alert("✅ Subscription berhasil!");
-        form.reset();
-        calculatePrice(); // reset harga juga
+        window.location.href = '/userdashboard';
       } else {
         alert("❌ Gagal: " + (result.message || "Terjadi kesalahan"));
       }
